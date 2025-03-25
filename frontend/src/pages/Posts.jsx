@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 const Posts = () => {
   const { user } = useAuth();
   const [posts, setPosts] = useState([]);
-  const [editingPost, setEditingPost] = useState(null);
+  const [setEditingPost] = useState(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
