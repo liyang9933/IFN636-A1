@@ -1,70 +1,130 @@
 JIRA board URL: https://ifn636liyang.atlassian.net/jira/software/projects/FDB/boards/100?atlOrigin=eyJpIjoiNTdkYTM1NTU1Y2Q5NDQxMGJmNjU0ZDk0ZTVkNzIyOWYiLCJwIjoiaiJ9
 
-# **Assignment: Full-Stack CRUD Application Development with DevOps Practices**
+* Discussion Board Application Overview: The discussion board application is designed to provide a platform for users to solve problems and contribute knowledge and experience. This is a web-based discussion board application that supports users to register, log in, create, edit and delete posts and sending/deleting replies. It also has user management function which can only allow the content creators to change their own posts/replies. The application is suitable for learning or as a basic platform for small communities.
 
-## **Objective**
+Features:
+- User Authentication:
+- New user sign up
+- User Login/Log-out
 
-You have been provided with a starter project that includes user authentication using  **Node.js, React.js, and MongoDB**. Your task is to extend this application by implementing **CRUD (Create, Read, Update, Delete) operations** for a real-world application of your choice, while following industry best practices such as:
+- Post your Threads:
+- Create, edit, delete your own posts
+- View all Threads
 
-* **Project Management with JIRA**
-* **Requirement Diagram using SysML**
-* **Version Control using GitHub**
-* **CI/CD Integration for Automated Deployment**
+- Reply others Threads:
+- Create, delte your own replies
+- View all replies
 
-## **Requirements**
+Tech stack:
 
-### **1. Choose a Real-World Application**
+- **Backend**: Node.js + Express
+- **Frontend**: React
+- **Database**: MongoDB
+- **Authentication**: JWT
+- **CI/CD**: GitHub Actions + AWS EC2
 
-Select a meaningful use case for your CRUD operations. We will provide the list, you have to select it.
+## Project Setup
 
-### **2. Project Management with JIRA and SysML**
+### 1. Clone the repository
+```git clone https://github.com/liyang9933/IFN636-A1.git```
 
-* Create a **JIRA project** and define:
-  * **Epic**
-  * **User Stories** (features required in your app)
-  * **Child issues & Subtasks** (breaking down development work)
-  * **Sprint Planning** (organizing work into milestones)
-* Document your JIRA **board URL** in the project README.
-* Draw a requirements diagram
+### 2. Install dependencies
+```npm install```
 
-### **3. Backend Development (Node.js + Express + MongoDB)**
+### 3. Environment setup
 
-* Create a user-friendly interface to interact with your API (Some portion developed, follow task manager app)).
-* Implement **forms** for adding and updating records.
-* Display data using  **tables, cards, or lists (Follow how we showed data in task manager app)**
+MONGO_URI=mongodb+srv://liyang9933:199933@cluster0.gafcx.mongodb.net/taskmanager?retryWrites=true&w=majority&appName=Cluster0
+JWT_SECRET=2J8zqkP7VN6bxzg+Wy7DQZsd3Yx8mF3Bl0kch6HYtFs=
+PORT=5001
 
-### **4. Frontend Development (React.js)**
 
-* Create a user-friendly interface to interact with your API (**Some portion developed, follow task manager app)**.
-* Implement **forms** for adding, showing, deleting and updating records (CRUD).
-* Display data using  **tables, cards, or lists (Follow how we showed data in task manager app)**
+### 4. Run the application
+```npm start```
 
-### **5. Authentication & Authorization**
+## CI/CD Pipeline Details
+This project uses GitHub Actions for CI/CD Pipline. A runner is set up on an AWS EC2 instance. 
 
-* Ensure **only authenticated users** can access and perform CRUD operations. (Already developed in your project)
-* Use **JWT (JSON Web Tokens)** for user authentication (Use the task manager one from .env file).
+Here is the AWS EC2 for QUT link: https://d-97671c4bd0.awsapps.com/start#/
 
-### **6. GitHub Version Control & Branching Strategy**
+```yaml
+name: Backend CI
 
-* Use **GitHub for version control** and maintain:
-  * `main` branch (stable production-ready code)
-  * Feature branches (`feature/xyz`) for each new functionality
-* Follow proper **commit messages** and  **pull request (PR) reviews** .
+on:
+  push:
+    branches:
+      - main  # Trigger CI on pushes to the main branch
 
-### **7. CI/CD Pipeline Setup**
 
-* Implement a **CI/CD pipeline using GitHub Actions** to:
-  * Automatically **run tests** on every commit/pull request (Optional).
-  * Deploy the **backend** to **AWS** .
-  * Deploy the **frontend** to **AWS**.
-* Document your  **CI/CD workflow in the README** .
+jobs:
+  test:
+    name: Run Tests
+    runs-on: self-hosted
 
-## **Submission Requirements**
+    strategy:
+      matrix:
+        node-version: [22] # Test on multiple Node.js versions
 
-* **JIRA Project Board URL** (user stories ).
-* **Requirment diagram** (Using project features)
-* **GitHub Repository** (`backend/` and `frontend/`).
-* **README.md** with:
 
-  * Project setup instructions.
-  * CI/CD pipeline details.
+    environment: MONGO_URI
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # Set up Node.js
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Print Env Secret
+
+      env:
+        MONGO_URI: ${{ secrets.MONGO_URI }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        PORT: ${{ secrets.PORT }}
+      run: | 
+        echo "Secret 1 is: $MONGO_URI"
+        echo "Secret 2 is: $JWT_SECRET"
+        echo "Secret 3 is: $PORT"
+      
+    - run: pm2 stop all
+
+    # Install dependencies for backend
+    - name: Install Backend Dependencies
+      working-directory: ./backend
+      run: | 
+       npm install --global yarn
+       yarn --version
+       yarn install
+      
+    # Install dependencies for frontend
+    - name: Install Frontend Dependencies
+      working-directory: ./frontend
+      run: |
+        df -h
+        sudo rm -rf ./build
+        yarn install
+        yarn run build
+
+
+    # Run backend tests
+    - name: Run Backend Tests
+      env:
+        MONGO_URI: ${{ secrets.MONGO_URI }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        PORT: ${{ secrets.PORT }}
+      working-directory: ./backend
+      run: npm test
+
+
+    - run: npm ci
+    - run: | 
+        cd ./backend
+        touch .env
+        echo "${{ secrets.PROD }}" > .env
+
+    - run: pm2 start all
+
+    - run: pm2 restart all
+    ```
