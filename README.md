@@ -1,4 +1,4 @@
-JIRA board URL: https://ifn636liyang.atlassian.net/jira/software/projects/FDB/boards/100?atlOrigin=eyJpIjoiNTdkYTM1NTU1Y2Q5NDQxMGJmNjU0ZDk0ZTVkNzIyOWYiLCJwIjoiaiJ9
+* JIRA board URL: https://ifn636liyang.atlassian.net/jira/software/projects/FDB/boards/100?atlOrigin=eyJpIjoiNTdkYTM1NTU1Y2Q5NDQxMGJmNjU0ZDk0ZTVkNzIyOWYiLCJwIjoiaiJ9
 
 * Discussion Board Application Overview: The discussion board application is designed to provide a platform for users to solve problems and contribute knowledge and experience. This is a web-based discussion board application that supports users to register, log in, create, edit and delete posts and sending/deleting replies. It also has user management function which can only allow the content creators to change their own posts/replies. The application is suitable for learning or as a basic platform for small communities.
 
@@ -33,8 +33,8 @@ Tech stack:
 
 ### 3. Environment setup
 
-MONGO_URI=mongodb+srv://liyang9933:199933@cluster0.gafcx.mongodb.net/taskmanager?retryWrites=true&w=majority&appName=Cluster0
-JWT_SECRET=2J8zqkP7VN6bxzg+Wy7DQZsd3Yx8mF3Bl0kch6HYtFs=
+MONGO_URI=mongodb+srv://liyang9933:199933@cluster0.gafcx.mongodb.net/taskmanager?retryWrites=true&w=majority&appName=Cluster0<br/>
+JWT_SECRET=2J8zqkP7VN6bxzg+Wy7DQZsd3Yx8mF3Bl0kch6HYtFs=<br/>
 PORT=5001
 
 
@@ -127,4 +127,4 @@ jobs:
     - run: pm2 start all
 
     - run: pm2 restart all
-    ```
+    
