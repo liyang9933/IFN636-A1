@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const mongoose = require('mongoose');
 const { expect } = chai;
 
-// 控制器和模型
+
 const Post = require('../models/Post');
 const Reply = require('../models/Reply');
 const {

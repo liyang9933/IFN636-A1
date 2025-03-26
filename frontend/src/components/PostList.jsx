@@ -42,7 +42,7 @@ const PostList = () => {
           <div key={post._id} className="bg-gray-100 p-4 mb-4 rounded shadow">
             <h2 className="font-bold">{post.title}</h2>
             <p>{post.content}</p>
-            <p className="text-sm text-gray-500">By: {post.author ? post.author.name : 'Unknown'}</p>
+            <p className="text-sm text-gray-500">By: {post.author.name}</p>
             <p className="text-sm text-gray-500">Created at: {new Date(post.createdAt).toLocaleString()}</p>
             {user && post.author && String(user.id) === String(post.author._id) && (
               <div className="mt-2">

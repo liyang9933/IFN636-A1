@@ -27,12 +27,7 @@ const Posts = () => {
 
   return (
     <div className="container mx-auto p-6">
-      {/* <PostForm
-        posts={posts}
-        setPosts={setPosts}
-        editingPost={editingPost}
-        setEditingPost={setEditingPost}
-      /> */}
+
       <PostList posts={posts} setPosts={setPosts} setEditingPost={setEditingPost} />
     </div>
   );
