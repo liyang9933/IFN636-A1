@@ -1,5 +1,6 @@
 * JIRA board URL: https://ifn636liyang.atlassian.net/jira/software/projects/FDB/boards/100?atlOrigin=eyJpIjoiNTdkYTM1NTU1Y2Q5NDQxMGJmNjU0ZDk0ZTVkNzIyOWYiLCJwIjoiaiJ9
 
+* App base URL: http://3.106.250.158:5001
 * Discussion Board Application Overview: The discussion board application is designed to provide a platform for users to solve problems and contribute knowledge and experience. This is a web-based discussion board application that supports users to register, log in, create, edit and delete posts and sending/deleting replies. It also has user management function which can only allow the content creators to change their own posts/replies. The application is suitable for learning or as a basic platform for small communities.
 
 Features:
@@ -44,7 +45,6 @@ PORT=5001
 ## CI/CD Pipeline Details
 This project uses GitHub Actions for CI/CD Pipline. A runner is set up on an AWS EC2 instance. 
 
-Here is the AWS EC2 for QUT link: https://d-97671c4bd0.awsapps.com/start#/
 
 ```yaml
 name: Backend CI
